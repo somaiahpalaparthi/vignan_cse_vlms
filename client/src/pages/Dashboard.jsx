@@ -281,11 +281,6 @@ export const Dashboard = ({ activeTab = 'dashboard', setActiveTab }) => {
   };
 
   const handleDeleteItem = async (itemId, mongoId) => {
-    if (!isAdmin) {
-      alert('Forbidden: Only Administrators are authorized to delete hardware items.');
-      return;
-    }
-
     const targetId = mongoId || itemId;
     if (window.confirm(`Are you sure you want to delete equipment item ${itemId || targetId}?`)) {
       try {
@@ -300,11 +295,6 @@ export const Dashboard = ({ activeTab = 'dashboard', setActiveTab }) => {
   };
 
   const handleClearAllInventory = async () => {
-    if (!isAdmin) {
-      alert('Forbidden: Only Administrators are authorized to clear hardware inventory.');
-      return;
-    }
-
     if (window.confirm('⚠️ ARE YOU SURE? This will DELETE ALL hardware equipment records in the system!')) {
       try {
         await fetchAPI(`/inventory/clear/all?userRole=${user?.role}`, { method: 'DELETE' });
@@ -1543,6 +1533,26 @@ export const Dashboard = ({ activeTab = 'dashboard', setActiveTab }) => {
                   >
                     ☰ Table View
                   </button>
+                  <button
+                    type="button"
+                    onClick={handleClearAllInventory}
+                    style={{
+                      fontSize: '0.8rem',
+                      padding: '5px 14px',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      background: 'rgba(239, 68, 68, 0.18)',
+                      color: '#ef4444',
+                      border: '1px solid rgba(239, 68, 68, 0.4)',
+                      borderRadius: '8px',
+                      fontWeight: 700,
+                      cursor: 'pointer'
+                    }}
+                    title="Delete All Inventory Equipment Assets"
+                  >
+                    <Trash2 size={14} /> Delete All Assets
+                  </button>
                 </div>
               </div>
             </div>
@@ -1763,16 +1773,14 @@ export const Dashboard = ({ activeTab = 'dashboard', setActiveTab }) => {
                             {isAdmin ? 'Edit' : 'Entry'}
                           </button>
 
-                          {isAdmin && (
-                            <button
-                              type="button"
-                              onClick={() => handleDeleteItem(item.itemId, item._id)}
-                              style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', padding: '4px' }}
-                              title="Delete Item"
-                            >
-                              <Trash2 size={15} />
-                            </button>
-                          )}
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteItem(item.itemId, item._id)}
+                            style={{ padding: '5px 10px', fontSize: '0.78rem', background: 'rgba(239, 68, 68, 0.18)', border: '1px solid rgba(239, 68, 68, 0.4)', color: '#ef4444', borderRadius: '6px', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '4px', fontWeight: 700 }}
+                            title="Delete Item"
+                          >
+                            <Trash2 size={13} /> Delete
+                          </button>
                         </div>
                       </div>
 
@@ -1914,14 +1922,13 @@ export const Dashboard = ({ activeTab = 'dashboard', setActiveTab }) => {
                               >
                                 {isAdmin ? 'Edit' : 'Entry/Update'}
                               </button>
-                              {isAdmin && (
-                                <button
-                                  onClick={() => handleDeleteItem(item.itemId, item._id)}
-                                  style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontWeight: 600, fontSize: '0.85rem' }}
-                                >
-                                  Delete
-                                </button>
-                              )}
+                              <button
+                                onClick={() => handleDeleteItem(item.itemId, item._id)}
+                                style={{ padding: '4px 8px', fontSize: '0.78rem', background: 'rgba(239, 68, 68, 0.18)', border: '1px solid rgba(239, 68, 68, 0.4)', color: '#ef4444', borderRadius: '6px', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '4px', fontWeight: 700 }}
+                                title="Delete Item"
+                              >
+                                <Trash2 size={13} /> Delete
+                              </button>
                             </div>
                           </td>
                         </tr>
