@@ -6,7 +6,7 @@ export const SettingsView = () => {
   const { theme, setTheme, isDark } = useTheme();
   const [saved, setSaved] = useState(false);
   const [systemName, setSystemName] = useState('Vignans LMS');
-  const [backendUrl, setBackendUrl] = useState('http://localhost:5000/api');
+  const [backendUrl, setBackendUrl] = useState(import.meta.env.VITE_API_URL || 'http://localhost:5000/api');
   const [autoRefresh, setAutoRefresh] = useState(30);
   const [enableAlerts, setEnableAlerts] = useState(true);
   const [maintenanceMode, setMaintenanceMode] = useState(false);
