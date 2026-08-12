@@ -1,6 +1,11 @@
 const getApiBase = () => {
-  if (import.meta.env.VITE_API_URL) {
-    return import.meta.env.VITE_API_URL;
+  let base = import.meta.env.VITE_API_URL;
+  if (base) {
+    base = base.trim().replace(/\/+$/, '');
+    if (!base.endsWith('/api')) {
+      base += '/api';
+    }
+    return base;
   }
   if (typeof window !== 'undefined') {
     if (window.location.protocol === 'file:') {
