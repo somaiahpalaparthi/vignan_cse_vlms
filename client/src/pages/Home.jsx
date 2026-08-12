@@ -61,10 +61,9 @@ export const Home = () => {
       const saved = localStorage.getItem('vlms_staff_list');
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length > 0 && !parsed.some(s => s.name === 'Mr.B.SeshuBabu')) return parsed;
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
       }
     } catch (e) {}
-    localStorage.removeItem('vlms_staff_list');
     return [];
   });
 

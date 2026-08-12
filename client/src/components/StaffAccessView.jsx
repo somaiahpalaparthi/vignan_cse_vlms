@@ -29,10 +29,8 @@ export const StaffAccessView = () => {
       const saved = localStorage.getItem('vlms_staff_list');
       if (saved) {
         const parsedSaved = JSON.parse(saved);
-        if (Array.isArray(parsedSaved) && parsedSaved.length > 0 && !parsedSaved.some(s => s.name === 'Mr.B.SeshuBabu')) {
+        if (Array.isArray(parsedSaved) && parsedSaved.length > 0) {
           initial = parsedSaved;
-        } else {
-          localStorage.removeItem('vlms_staff_list');
         }
       }
     } catch (e) {}
