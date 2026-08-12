@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Clock, CheckCircle, Search, RefreshCw, AlertTriangle, Lock, Printer } from 'lucide-react';
+import { Clock, CheckCircle, Search, RefreshCw, AlertTriangle, Lock, Printer, Trash2 } from 'lucide-react';
 import { fetchAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { getTechnicianDisplay, getDaysToResolveDisplay } from './IssuesView';
@@ -216,6 +216,31 @@ export const PendingStatusView = ({ selectedLab: globalSelectedLab, items = [], 
     } catch (e) {}
 
     if (onReload) onReload();
+  };
+
+  const handleDelete = async (item) => {
+    if (!window.confirm(`Are you sure you want to delete this pending issue?`)) return;
+    const issueId = item.id || item._id || item.itemId;
+
+    try {
+      if (issueId) {
+        await fetchAPI(`/issues/${issueId}`, { method: 'DELETE' }).catch(() => {});
+        await fetchAPI(`/inventory/${issueId}`, { method: 'DELETE' }).catch(() => {});
+      }
+
+      let currentIssues = [];
+      try {
+        const saved = localStorage.getItem('vlms_issues');
+        if (saved) currentIssues = JSON.parse(saved);
+      } catch (e) {}
+
+      const updatedIssues = currentIssues.filter((i) => (i.id || i._id || i.itemId) !== issueId);
+      localStorage.setItem('vlms_issues', JSON.stringify(updatedIssues));
+
+      if (onReload) onReload();
+    } catch (err) {
+      console.error('Error deleting pending issue:', err);
+    }
   };
 
   const filtered = pendingItems.filter((i) => {
@@ -455,13 +480,20 @@ export const PendingStatusView = ({ selectedLab: globalSelectedLab, items = [], 
                         );
                       })()}
                     </td>
-                    <td style={{ padding: '14px' }}>
+                    <td style={{ padding: '14px', display: 'flex', alignItems: 'center', gap: '6px' }}>
                       <button
                         onClick={() => handleResolve(item)}
                         className="btn-cyan"
                         style={{ padding: '6px 12px', fontSize: '0.78rem', height: '30px', cursor: 'pointer' }}
                       >
                         <CheckCircle size={14} /> Mark Repaired
+                      </button>
+                      <button
+                        onClick={() => handleDelete(item)}
+                        style={{ padding: '6px 10px', fontSize: '0.78rem', height: '30px', cursor: 'pointer', background: 'rgba(239, 68, 68, 0.2)', border: '1px solid rgba(239, 68, 68, 0.4)', color: '#ef4444', borderRadius: '6px', display: 'inline-flex', alignItems: 'center', gap: '4px' }}
+                        title="Delete Pending Issue"
+                      >
+                        <Trash2 size={14} /> Delete
                       </button>
                     </td>
                   </tr>

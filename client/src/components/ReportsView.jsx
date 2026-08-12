@@ -16,7 +16,8 @@ import {
   Lock,
   Layers,
   Wrench,
-  Check
+  Check,
+  Trash2
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { fetchAPI } from '../services/api';
@@ -120,6 +121,42 @@ export const ReportsView = ({ items = [] }) => {
 
     loadReportSourceData();
   }, [isAdmin, userLab]);
+
+  const handleDeleteRecord = async (row) => {
+    if (!window.confirm(`Are you sure you want to delete "${row.equipmentItem}" report record?`)) return;
+    const targetId = row.id || row._id || row.itemId || row.sNo;
+
+    try {
+      if (targetId) {
+        await fetchAPI(`/stock/${targetId}`, { method: 'DELETE' }).catch(() => {});
+        await fetchAPI(`/issues/${targetId}`, { method: 'DELETE' }).catch(() => {});
+        await fetchAPI(`/inventory/${targetId}`, { method: 'DELETE' }).catch(() => {});
+      }
+
+      const filterOut = (key) => {
+        try {
+          const saved = localStorage.getItem(key);
+          if (saved) {
+            const parsed = JSON.parse(saved);
+            if (Array.isArray(parsed)) {
+              const updated = parsed.filter(x => (x.id || x._id || x.itemId) !== targetId && x.name !== row.equipmentItem && x.equipmentName !== row.equipmentItem);
+              localStorage.setItem(key, JSON.stringify(updated));
+            }
+          }
+        } catch (e) {}
+      };
+
+      filterOut('vlms_stock_list');
+      filterOut('vlms_stock_entries');
+      filterOut('vlms_issues');
+      filterOut('vlms_inventory');
+
+      setDbStockItems(prev => prev.filter(x => (x.id || x._id || x.itemId) !== targetId && x.name !== row.equipmentItem));
+      setLiveIssues(prev => prev.filter(x => (x.id || x._id || x.itemId) !== targetId && x.equipmentName !== row.equipmentItem));
+    } catch (err) {
+      console.error('Error deleting report record:', err);
+    }
+  };
 
   // Base Master Data set formatted with exact 15 records
   const baseMasterData = [
@@ -770,6 +807,7 @@ export const ReportsView = ({ items = [] }) => {
                 <th style={{ padding: '12px 10px' }}>Item Working Status</th>
                 <th style={{ padding: '12px 10px' }}>Logged Issue / Fault Description</th>
                 <th style={{ padding: '12px 10px' }}>Log Date</th>
+                <th style={{ padding: '12px 10px' }}>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -808,6 +846,27 @@ export const ReportsView = ({ items = [] }) => {
                       {row.issueDescription}
                     </td>
                     <td style={{ padding: '14px 10px', color: 'var(--text-secondary)' }}>{row.date}</td>
+                    <td style={{ padding: '14px 10px' }}>
+                      <button
+                        onClick={() => handleDeleteRecord(row)}
+                        style={{
+                          background: 'rgba(239, 68, 68, 0.18)',
+                          color: '#ef4444',
+                          border: '1px solid rgba(239, 68, 68, 0.35)',
+                          padding: '5px 10px',
+                          borderRadius: '6px',
+                          cursor: 'pointer',
+                          fontSize: '0.78rem',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '4px',
+                          fontWeight: 600
+                        }}
+                        title="Delete Record"
+                      >
+                        <Trash2 size={13} /> Delete
+                      </button>
+                    </td>
                   </tr>
                 );
               })}

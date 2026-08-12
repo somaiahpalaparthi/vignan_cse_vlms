@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { CheckCircle, Search, Download, ShieldCheck, RefreshCw, Lock, Printer } from 'lucide-react';
+import { CheckCircle, Search, Download, ShieldCheck, RefreshCw, Lock, Printer, Trash2 } from 'lucide-react';
+import { fetchAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { getTechnicianDisplay, getDaysToResolveDisplay } from './IssuesView';
 import { isInactiveLab } from '../utils/staffLabs';
@@ -155,6 +156,31 @@ export const CompletedStatusView = ({ selectedLab: globalSelectedLab, items = []
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  };
+
+  const handleDelete = async (item) => {
+    if (!window.confirm(`Are you sure you want to delete this completed record?`)) return;
+    const issueId = item.id || item._id || item.itemId;
+
+    try {
+      if (issueId) {
+        await fetchAPI(`/issues/${issueId}`, { method: 'DELETE' }).catch(() => {});
+        await fetchAPI(`/inventory/${issueId}`, { method: 'DELETE' }).catch(() => {});
+      }
+
+      let currentIssues = [];
+      try {
+        const saved = localStorage.getItem('vlms_issues');
+        if (saved) currentIssues = JSON.parse(saved);
+      } catch (e) {}
+
+      const updatedIssues = currentIssues.filter((i) => (i.id || i._id || i.itemId) !== issueId);
+      localStorage.setItem('vlms_issues', JSON.stringify(updatedIssues));
+
+      if (onReload) onReload();
+    } catch (err) {
+      console.error('Error deleting completed record:', err);
+    }
   };
 
   // Dynamic item-wise count of resolved items
@@ -385,7 +411,7 @@ export const CompletedStatusView = ({ selectedLab: globalSelectedLab, items = []
                         ⚡ {getDaysToResolveDisplay(item)}
                       </span>
                     </td>
-                    <td style={{ padding: '14px' }}>
+                    <td style={{ padding: '14px', display: 'flex', alignItems: 'center', gap: '6px' }}>
                       <button
                         onClick={() => printIndividualIssue(item)}
                         className="btn-cyan"
@@ -393,6 +419,13 @@ export const CompletedStatusView = ({ selectedLab: globalSelectedLab, items = []
                         title="Print Maintenance Certificate / PDF"
                       >
                         <Printer size={13} /> Print Ticket
+                      </button>
+                      <button
+                        onClick={() => handleDelete(item)}
+                        style={{ padding: '6px 10px', fontSize: '0.78rem', height: '30px', cursor: 'pointer', background: 'rgba(239, 68, 68, 0.2)', border: '1px solid rgba(239, 68, 68, 0.4)', color: '#ef4444', borderRadius: '6px', display: 'inline-flex', alignItems: 'center', gap: '4px' }}
+                        title="Delete Completed Record"
+                      >
+                        <Trash2 size={13} /> Delete
                       </button>
                     </td>
                   </tr>
