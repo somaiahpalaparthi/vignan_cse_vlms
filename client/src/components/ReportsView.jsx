@@ -158,6 +158,33 @@ export const ReportsView = ({ items = [] }) => {
     }
   };
 
+  const handleDeleteAllReports = async () => {
+    if (!window.confirm('⚠️ Are you sure you want to DELETE ALL report summary records? This action will purge all stored report data.')) return;
+
+    try {
+      const deletePromises = filteredReportData.map(async (row) => {
+        const targetId = row.id || row._id || row.itemId;
+        if (targetId) {
+          await fetchAPI(`/stock/${targetId}`, { method: 'DELETE' }).catch(() => {});
+          await fetchAPI(`/issues/${targetId}`, { method: 'DELETE' }).catch(() => {});
+          await fetchAPI(`/inventory/${targetId}`, { method: 'DELETE' }).catch(() => {});
+        }
+      });
+
+      await Promise.all(deletePromises);
+
+      localStorage.removeItem('vlms_stock_list');
+      localStorage.removeItem('vlms_stock_entries');
+      localStorage.removeItem('vlms_issues');
+      localStorage.removeItem('vlms_inventory');
+
+      setDbStockItems([]);
+      setLiveIssues([]);
+    } catch (err) {
+      console.error('Error deleting all report records:', err);
+    }
+  };
+
   // Base Master Data set formatted with exact 15 records
   const baseMasterData = [
     { 
@@ -595,7 +622,7 @@ export const ReportsView = ({ items = [] }) => {
           </p>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
           <button 
             onClick={handlePrint}
             className="pill-filter" 
@@ -610,6 +637,27 @@ export const ReportsView = ({ items = [] }) => {
             style={{ height: '40px', padding: '0 18px', fontSize: '0.85rem' }}
           >
             <Download size={16} /> Export CSV Report
+          </button>
+
+          <button
+            onClick={handleDeleteAllReports}
+            style={{
+              height: '40px',
+              padding: '0 16px',
+              fontSize: '0.85rem',
+              background: 'rgba(239, 68, 68, 0.2)',
+              border: '1px solid rgba(239, 68, 68, 0.45)',
+              color: '#ef4444',
+              borderRadius: '8px',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              fontWeight: 700
+            }}
+            title="Delete All Report Summary Data"
+          >
+            <Trash2 size={16} /> Delete All Reports Summary
           </button>
         </div>
       </div>
@@ -777,9 +825,30 @@ export const ReportsView = ({ items = [] }) => {
               Detailed breakdown: S.No | Equipment Item Name | Category | Sub-Category | Lab Room | Items in Stock | Issues | Total Working | Working Status | Fault Description | Log Date
             </span>
           </div>
-          <span style={{ fontSize: '0.8rem', color: 'var(--cyan-bright)', fontWeight: 700, background: 'rgba(0,242,254,0.1)', padding: '4px 10px', borderRadius: '6px', border: '1px solid rgba(0,242,254,0.3)' }}>
-            Report Code: EQUIPMENT-SUMMARY-2026
-          </span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <button
+              onClick={handleDeleteAllReports}
+              style={{
+                padding: '5px 12px',
+                fontSize: '0.78rem',
+                background: 'rgba(239, 68, 68, 0.2)',
+                border: '1px solid rgba(239, 68, 68, 0.4)',
+                color: '#ef4444',
+                borderRadius: '6px',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px',
+                fontWeight: 700
+              }}
+              title="Delete All Summary Records"
+            >
+              <Trash2 size={13} /> Delete All Reports Summary
+            </button>
+            <span style={{ fontSize: '0.8rem', color: 'var(--cyan-bright)', fontWeight: 700, background: 'rgba(0,242,254,0.1)', padding: '4px 10px', borderRadius: '6px', border: '1px solid rgba(0,242,254,0.3)' }}>
+              Report Code: EQUIPMENT-SUMMARY-2026
+            </span>
+          </div>
         </div>
 
         {/* Scrollbar Container Layout */}
