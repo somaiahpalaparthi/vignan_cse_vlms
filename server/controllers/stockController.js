@@ -20,17 +20,7 @@ const isInactiveLab = (labStr) => {
   return false;
 };
 
-const initialStockSeed = [
-  { id: 'STK-HW-101', name: 'Workstation CPU Tower i7', category: 'Hardware', subCategory: 'cpu', quantity: 24, unitCost: 850, invoiceNo: 'INV-8820', serialNo: 'SN-00192', invoiceDate: '2026-07-01', labLocation: 'Lab 12', supplier: 'Dell Direct', status: 'In Stock', dateAdded: '2026-07-01' },
-  { id: 'STK-HW-102', name: 'UltraSharp 27" Monitor', category: 'Hardware', subCategory: 'monitor', quantity: 18, unitCost: 320, invoiceNo: 'INV-8821', serialNo: 'SN-00193', invoiceDate: '2026-07-02', labLocation: 'Lab 12', supplier: 'Dell Direct', status: 'In Stock', dateAdded: '2026-07-02' },
-  { id: 'STK-HW-105', name: 'Dell OptiPlex 7090 Tower', category: 'Hardware', subCategory: 'cpu', quantity: 15, unitCost: 780, invoiceNo: 'INV-8824', serialNo: 'SN-00196', invoiceDate: '2026-07-05', labLocation: 'Lab 12', supplier: 'Dell Direct', status: 'In Stock', dateAdded: '2026-07-05' },
-  { id: 'STK-EL-103', name: 'High Efficiency Ceiling Fan', category: 'Electrical', subCategory: 'fans', quantity: 12, unitCost: 150, invoiceNo: 'INV-8822', serialNo: 'SN-00194', invoiceDate: '2026-07-03', labLocation: 'Lab 25', supplier: 'Havells Tech', status: 'In Stock', dateAdded: '2026-07-03' },
-  { id: 'STK-WF-104', name: 'Ergonomic Lab Chair', category: 'Workshop / Furniture', subCategory: 'chairs', quantity: 30, unitCost: 110, invoiceNo: 'INV-8823', serialNo: 'SN-00195', invoiceDate: '2026-07-04', labLocation: 'Lab 33', supplier: 'Steelcase', status: 'In Stock', dateAdded: '2026-07-04' },
-  { id: 'STK-HW-106', name: 'Logitech MX Master Wireless Mouse', category: 'Hardware', subCategory: 'mouse', quantity: 20, unitCost: 65, invoiceNo: 'INV-8825', serialNo: 'SN-00197', invoiceDate: '2026-07-06', labLocation: 'Lab 12', supplier: 'Logitech', status: 'In Stock', dateAdded: '2026-07-06' },
-  { id: 'STK-HW-107', name: 'Smart Interactive Board 75"', category: 'Hardware', subCategory: 'smartboard', quantity: 8, unitCost: 1200, invoiceNo: 'INV-8826', serialNo: 'SN-00198', invoiceDate: '2026-07-07', labLocation: 'Lab A', supplier: 'Samsung', status: 'In Stock', dateAdded: '2026-07-07' },
-  { id: 'STK-EL-108', name: 'APC Smart-UPS 1500VA', category: 'Electrical', subCategory: 'Acs', quantity: 10, unitCost: 450, invoiceNo: 'INV-8827', serialNo: 'SN-00199', invoiceDate: '2026-07-08', labLocation: 'Lab B', supplier: 'Schneider Electric', status: 'In Stock', dateAdded: '2026-07-08' },
-  { id: 'STK-WF-109', name: 'Modular Electronics Workbench', category: 'Workshop / Furniture', subCategory: 'tables', quantity: 14, unitCost: 350, invoiceNo: 'INV-8828', serialNo: 'SN-00200', invoiceDate: '2026-07-09', labLocation: 'Lab C', supplier: 'LabDesign Co', status: 'In Stock', dateAdded: '2026-07-09' }
-];
+const initialStockSeed = [];
 
 let isStockSeeded = false;
 

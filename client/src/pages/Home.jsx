@@ -219,45 +219,8 @@ export const Home = () => {
     };
   }, []);
 
-  // Lab Rooms Overview Data
-  const labRoomsList = [
-    {
-      id: 'nb511',
-      name: 'NB-511',
-      role: 'Core Systems & Programming Lab',
-      capacity: '75 Systems',
-      lead: 'kattakalyani (staff)',
-      status: 'operational',
-      systems: '75x Lenovo i5 11th gen 8 GB 240 SSD',
-      power: '20 KVA APC UPS Backed',
-      ac: '4x Split ACs',
-      imageBg: 'linear-gradient(135deg, rgba(2, 132, 199, 0.15), rgba(16, 185, 129, 0.05))'
-    },
-    {
-      id: 'nb511_research',
-      name: 'NB-511 Research Lab',
-      role: 'Core Systems & Programming Lab',
-      capacity: '75 Systems',
-      lead: 'Dr. P. Suresh (AI Lab Incharge)',
-      status: 'operational',
-      systems: '75x Intel i5 Workstations (16GB RAM, 512GB SSD)',
-      power: '20 KVA APC UPS Backed',
-      ac: '4x Split ACs',
-      imageBg: 'linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(2, 132, 199, 0.05))'
-    },
-    {
-      id: 'nb304',
-      name: 'NB-304',
-      role: 'Advanced AI & Data Science Lab',
-      capacity: '72 Systems',
-      lead: 'Mrs. T. Lakshmi (IoT Technician)',
-      status: 'operational',
-      systems: '72x HP Z2 Workstations (32GB RAM, 1TB SSD)',
-      power: '20 KVA APC UPS Backed',
-      ac: '4x Split ACs',
-      imageBg: 'linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(168, 85, 247, 0.05))'
-    }
-  ];
+  // Lab Rooms Overview Data (empty so only staff entered rooms display)
+  const labRoomsList = [];
 
   // Default Fallback Dataset (empty so only staff entered data displays)
   const defaultLabAssets = {
@@ -1086,7 +1049,7 @@ export const Home = () => {
                     idx++;
                   }
 
-                  return resultList.length > 0 ? resultList : labRoomsList;
+                  return resultList;
                 };
 
                 const dynamicCards = getDynamicLabRooms();
