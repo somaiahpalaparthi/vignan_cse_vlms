@@ -491,9 +491,7 @@ export const ReportsView = ({ items = [] }) => {
     return row;
   });
 
-  const mergedLiveReportData = processedStockItems.length > 0
-    ? [...processedStockItems, ...standaloneIssues]
-    : [...processedBaseMasterData, ...standaloneIssues];
+  const mergedLiveReportData = [...processedStockItems, ...standaloneIssues];
 
   // Dynamically extract unique lab rooms present in active database & live records
   const databaseActiveLabs = Array.from(
@@ -880,65 +878,77 @@ export const ReportsView = ({ items = [] }) => {
               </tr>
             </thead>
             <tbody>
-              {filteredReportData.map((row) => {
-                const isWorking = row.workingStatus.includes('Working');
-                return (
-                  <tr key={row.sNo + '-' + row.equipmentItem} style={{ borderBottom: '1px solid var(--glass-border)' }}>
-                    <td style={{ padding: '14px 10px', fontWeight: 700, color: 'var(--cyan-bright)' }}>{row.sNo}</td>
-                    <td style={{ padding: '14px 10px', color: '#fff', fontWeight: 700 }}>{row.equipmentItem}</td>
-                    <td style={{ padding: '14px 10px' }}>
-                      <span 
-                        style={{ 
-                          fontSize: '0.75rem', 
-                          fontWeight: 700, 
-                          padding: '3px 8px', 
-                          borderRadius: '4px',
-                          color: row.category === 'Electrical' ? '#ff9f43' : row.category.includes('Workshop') ? '#10b981' : 'var(--cyan-bright)',
-                          background: row.category === 'Electrical' ? 'rgba(255,159,67,0.15)' : row.category.includes('Workshop') ? 'rgba(16,185,129,0.15)' : 'rgba(0,242,254,0.15)',
-                          border: `1px solid ${row.category === 'Electrical' ? '#ff9f43' : row.category.includes('Workshop') ? '#10b981' : 'var(--cyan-bright)'}40`
-                        }}
-                      >
-                        {row.category}
-                      </span>
-                    </td>
-                    <td style={{ padding: '14px 10px', color: 'var(--text-secondary)' }}>{row.subCategory}</td>
-                    <td style={{ padding: '14px 10px', color: '#fff', fontWeight: 600 }}>{row.lab}</td>
-                    <td style={{ padding: '14px 10px', fontWeight: 700, color: 'var(--cyan-bright)' }}>{row.itemsInStock} Units</td>
-                    <td style={{ padding: '14px 10px', fontWeight: 700, color: row.noOfIssues > 0 ? '#ef4444' : 'var(--text-muted)' }}>{row.noOfIssues} Issues</td>
-                    <td style={{ padding: '14px 10px', fontWeight: 800, color: 'var(--green-online)' }}>{row.totalWorking} Units</td>
-                    <td style={{ padding: '14px 10px' }}>
-                      <span className={`status-pill ${isWorking ? 'status-completed' : 'status-pending'}`}>
-                        {row.workingStatus}
-                      </span>
-                    </td>
-                    <td style={{ padding: '14px 10px', color: isWorking ? 'var(--text-muted)' : '#ef4444', fontWeight: isWorking ? 400 : 600 }}>
-                      {row.issueDescription}
-                    </td>
-                    <td style={{ padding: '14px 10px', color: 'var(--text-secondary)' }}>{row.date}</td>
-                    <td style={{ padding: '14px 10px' }}>
-                      <button
-                        onClick={() => handleDeleteRecord(row)}
-                        style={{
-                          background: 'rgba(239, 68, 68, 0.18)',
-                          color: '#ef4444',
-                          border: '1px solid rgba(239, 68, 68, 0.35)',
-                          padding: '5px 10px',
-                          borderRadius: '6px',
-                          cursor: 'pointer',
-                          fontSize: '0.78rem',
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: '4px',
-                          fontWeight: 600
-                        }}
-                        title="Delete Record"
-                      >
-                        <Trash2 size={13} /> Delete
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
+              {filteredReportData.length > 0 ? (
+                filteredReportData.map((row) => {
+                  const isWorking = row.workingStatus.includes('Working');
+                  return (
+                    <tr key={row.sNo + '-' + row.equipmentItem} style={{ borderBottom: '1px solid var(--glass-border)' }}>
+                      <td style={{ padding: '14px 10px', fontWeight: 700, color: 'var(--cyan-bright)' }}>{row.sNo}</td>
+                      <td style={{ padding: '14px 10px', color: '#fff', fontWeight: 700 }}>{row.equipmentItem}</td>
+                      <td style={{ padding: '14px 10px' }}>
+                        <span 
+                          style={{ 
+                            fontSize: '0.75rem', 
+                            fontWeight: 700, 
+                            padding: '3px 8px', 
+                            borderRadius: '4px',
+                            color: row.category === 'Electrical' ? '#ff9f43' : row.category.includes('Workshop') ? '#10b981' : 'var(--cyan-bright)',
+                            background: row.category === 'Electrical' ? 'rgba(255,159,67,0.15)' : row.category.includes('Workshop') ? 'rgba(16,185,129,0.15)' : 'rgba(0,242,254,0.15)',
+                            border: `1px solid ${row.category === 'Electrical' ? '#ff9f43' : row.category.includes('Workshop') ? '#10b981' : 'var(--cyan-bright)'}40`
+                          }}
+                        >
+                          {row.category}
+                        </span>
+                      </td>
+                      <td style={{ padding: '14px 10px', color: 'var(--text-secondary)' }}>{row.subCategory}</td>
+                      <td style={{ padding: '14px 10px', color: '#fff', fontWeight: 600 }}>{row.lab}</td>
+                      <td style={{ padding: '14px 10px', fontWeight: 700, color: 'var(--cyan-bright)' }}>{row.itemsInStock} Units</td>
+                      <td style={{ padding: '14px 10px', fontWeight: 700, color: row.noOfIssues > 0 ? '#ef4444' : 'var(--text-muted)' }}>{row.noOfIssues} Issues</td>
+                      <td style={{ padding: '14px 10px', fontWeight 800, color: 'var(--green-online)' }}>{row.totalWorking} Units</td>
+                      <td style={{ padding: '14px 10px' }}>
+                        <span className={`status-pill ${isWorking ? 'status-completed' : 'status-pending'}`}>
+                          {row.workingStatus}
+                        </span>
+                      </td>
+                      <td style={{ padding: '14px 10px', color: isWorking ? 'var(--text-muted)' : '#ef4444', fontWeight: isWorking ? 400 : 600 }}>
+                        {row.issueDescription}
+                      </td>
+                      <td style={{ padding: '14px 10px', color: 'var(--text-secondary)' }}>{row.date}</td>
+                      <td style={{ padding: '14px 10px' }}>
+                        <button
+                          onClick={() => handleDeleteRecord(row)}
+                          style={{
+                            background: 'rgba(239, 68, 68, 0.18)',
+                            color: '#ef4444',
+                            border: '1px solid rgba(239, 68, 68, 0.35)',
+                            padding: '5px 10px',
+                            borderRadius: '6px',
+                            cursor: 'pointer',
+                            fontSize: '0.78rem',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '4px',
+                            fontWeight: 600
+                          }}
+                          title="Delete Record"
+                        >
+                          <Trash2 size={13} /> Delete
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td colSpan="12" style={{ padding: '45px', textAlign: 'center', color: 'var(--text-muted)' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
+                      <CheckCircle size={38} color="var(--cyan-bright)" />
+                      <span style={{ fontSize: '1.05rem', fontWeight: 800, color: '#fff' }}>No Report Records Found</span>
+                      <span style={{ fontSize: '0.85rem' }}>All report summary records cleared or 0 records match your current filter.</span>
+                    </div>
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
