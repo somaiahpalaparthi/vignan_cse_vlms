@@ -1,0 +1,335 @@
+:root, [data-theme="dark"] {
+  --bg-deep: #060911;
+  --bg-panel: rgba(13, 19, 32, 0.75);
+  --bg-panel-solid: #0d1320;
+  --bg-input: rgba(10, 15, 26, 0.85);
+  --sidebar-bg: rgba(10, 14, 23, 0.95);
+  --glass-border: rgba(0, 242, 254, 0.15);
+  --glass-border-glow: rgba(0, 242, 254, 0.4);
+  
+  --cyan-bright: #00f2fe;
+  --cyan-glow: rgba(0, 242, 254, 0.3);
+  --cyan-dark: #00a3ad;
+  --orange-accent: #ff9f43;
+  --orange-glow: rgba(255, 159, 67, 0.25);
+  --green-online: #10b981;
+  --green-glow: rgba(16, 185, 129, 0.25);
+  --gray-offline: #475569;
+  
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --card-text-head: #ffffff;
+  --btn-text: #060911;
+  
+  --font-sans: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  
+  --circuit-bg-radial: radial-gradient(circle at 50% 50%, rgba(0, 242, 254, 0.08) 0%, transparent 60%);
+  --circuit-line-h: linear-gradient(to right, rgba(0, 242, 254, 0.03) 1px, transparent 1px);
+  --circuit-line-v: linear-gradient(to bottom, rgba(0, 242, 254, 0.03) 1px, transparent 1px);
+  --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  --card-shadow-hover: 0 10px 35px 0 rgba(0, 242, 254, 0.15);
+}
+
+[data-theme="light"] {
+  --bg-deep: #f1f5f9;
+  --bg-panel: rgba(255, 255, 255, 0.88);
+  --bg-panel-solid: #ffffff;
+  --bg-input: #ffffff;
+  --sidebar-bg: rgba(255, 255, 255, 0.95);
+  --glass-border: rgba(2, 132, 199, 0.2);
+  --glass-border-glow: rgba(2, 132, 199, 0.45);
+  
+  --cyan-bright: #0284c7;
+  --cyan-glow: rgba(2, 132, 199, 0.25);
+  --cyan-dark: #0369a1;
+  --orange-accent: #d97706;
+  --orange-glow: rgba(217, 119, 6, 0.2);
+  --green-online: #059669;
+  --green-glow: rgba(5, 150, 105, 0.2);
+  --gray-offline: #64748b;
+  
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+  --card-text-head: #0f172a;
+  --btn-text: #ffffff;
+  
+  --circuit-bg-radial: radial-gradient(circle at 50% 50%, rgba(2, 132, 199, 0.06) 0%, transparent 60%);
+  --circuit-line-h: linear-gradient(to right, rgba(2, 132, 199, 0.05) 1px, transparent 1px);
+  --circuit-line-v: linear-gradient(to bottom, rgba(2, 132, 199, 0.05) 1px, transparent 1px);
+  --card-shadow: 0 4px 20px 0 rgba(15, 23, 42, 0.06);
+  --card-shadow-hover: 0 8px 28px 0 rgba(2, 132, 199, 0.18);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-deep);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Background Circuit Pattern Overlay */
+.circuit-bg {
+  background-color: var(--bg-deep);
+  background-image: 
+    var(--circuit-bg-radial),
+    var(--circuit-line-h),
+    var(--circuit-line-v);
+  background-size: 100% 100%, 40px 40px, 40px 40px;
+  transition: background-color 0.3s ease;
+}
+
+/* Glassmorphism Panel */
+.lab-card {
+  background: var(--bg-panel);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--card-shadow);
+  transition: all 0.25s ease-in-out;
+}
+
+.lab-card-hover:hover {
+  border-color: var(--glass-border-glow);
+  box-shadow: var(--card-shadow-hover);
+}
+
+/* Glowing Neon Cyan / Primary Accent Button */
+.btn-cyan {
+  background: var(--cyan-bright);
+  color: var(--btn-text);
+  font-weight: 700;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 12px 24px;
+  cursor: pointer;
+  box-shadow: 0 0 20px var(--cyan-glow);
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-cyan:hover {
+  opacity: 0.92;
+  box-shadow: 0 0 28px var(--cyan-glow);
+  transform: translateY(-1px);
+}
+
+/* Inputs */
+.lab-input {
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--bg-input);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+.lab-input:focus {
+  border-color: var(--cyan-bright);
+  box-shadow: 0 0 12px var(--cyan-glow);
+}
+
+/* Status Badges */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.status-online {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--green-online);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+.status-offline {
+  background: rgba(71, 85, 105, 0.2);
+  color: var(--text-secondary);
+  border: 1px solid rgba(71, 85, 105, 0.4);
+}
+
+.status-pending {
+  background: rgba(255, 159, 67, 0.15);
+  color: var(--orange-accent);
+  border: 1px solid rgba(255, 159, 67, 0.4);
+}
+
+.status-completed {
+  background: rgba(2, 132, 199, 0.15);
+  color: var(--cyan-bright);
+  border: 1px solid rgba(2, 132, 199, 0.4);
+}
+
+/* Category Filter Pills */
+.pill-filter {
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: rgba(125, 125, 125, 0.06);
+  color: var(--text-secondary);
+  border: 1px solid var(--glass-border);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pill-filter.active {
+  background: var(--cyan-bright);
+  color: var(--btn-text);
+  border-color: var(--cyan-bright);
+  box-shadow: 0 0 12px var(--cyan-glow);
+}
+
+.pill-filter:hover:not(.active) {
+  background: rgba(125, 125, 125, 0.12);
+  color: var(--text-primary);
+}
+
+/* Custom Theme Toggle Control */
+.theme-switch-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: var(--bg-input);
+  border: 1px solid var(--glass-border);
+  color: var(--text-primary);
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: all 0.25s ease;
+  user-select: none;
+}
+
+.theme-switch-pill:hover {
+  border-color: var(--cyan-bright);
+  box-shadow: 0 0 10px var(--cyan-glow);
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-deep);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--cyan-glow);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--cyan-bright);
+}
+
+/* Landing Page Animations & Custom Utilities */
+html {
+  scroll-behavior: smooth;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(0, 242, 254, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(0, 242, 254, 0.5);
+  }
+}
+
+.pulse-badge {
+  animation: pulseGlow 3s infinite ease-in-out;
+}
+
+.feature-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--glass-border-glow);
+  box-shadow: var(--card-shadow-hover);
+}
+
+.lab-room-card {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.lab-room-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--cyan-bright);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, var(--cyan-bright) 0%, #38bdf8 50%, #818cf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Custom Glowing Scrollbar for Dashboard, Views, Tables & Containers */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(6, 9, 17, 0.6);
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--cyan-bright) 0%, #0284c7 100%);
+  border-radius: 8px;
+  border: 2px solid rgba(6, 9, 17, 0.8);
+  box-shadow: 0 0 10px var(--cyan-glow);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--cyan-bright);
+  box-shadow: 0 0 15px var(--cyan-bright);
+}
+
+/* Firefox Scrollbar Support */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--cyan-bright) rgba(6, 9, 17, 0.6);
+}
+
+/* Hide Scrollbar Utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+
