@@ -13,13 +13,7 @@ export const StaffAccessView = () => {
   const [showPasswordMap, setShowPasswordMap] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const defaultStaffList = [
-    { id: 'usr-1', name: 'Mr.B.SeshuBabu', email: 'seshubabu@labflow.dev', userId: 'seshubabu@labflow.dev', mobileNumber: '9491186974', role: 'staff', department: 'NB-301', status: 'On Leave', password: 'staff123' },
-    { id: 'usr-2', name: 'kattakalyani', email: 'kattakalyani@labflow.dev', userId: 'kattakalyani@labflow.dev', mobileNumber: '7981669620', role: 'staff', department: 'NB-511', status: 'Active', password: 'staff123' },
-    { id: 'usr-3', name: 'ch sirisha', email: 'sirisha@labflow.dev', userId: 'sirisha@labflow.dev', mobileNumber: '837428829', role: 'staff', department: 'NB-304', status: 'Active', password: 'staff123' },
-    { id: 'usr-4', name: 'Programmer Staff A', email: 'staff@labflow.dev', userId: 'staff@labflow.dev', mobileNumber: '+1 555-0184', role: 'staff', department: 'Lab 12', status: 'Active', password: 'staff123' },
-    { id: 'usr-5', name: 'Jamer Smrey', email: 'jamer@labflow.dev', userId: 'jamer@labflow.dev', mobileNumber: '+1 555-0177', role: 'staff', department: 'Lab 25', status: 'Active', password: 'jamer123' }
-  ];
+  const defaultStaffList = [];
 
   const [staffList, setStaffList] = useState(() => {
     let deleted = [];
