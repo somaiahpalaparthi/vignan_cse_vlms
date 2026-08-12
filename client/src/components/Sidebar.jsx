@@ -36,8 +36,12 @@ export const Sidebar = ({ activeTab, setActiveTab }) => {
       if (saved) {
         const issues = JSON.parse(saved);
         if (Array.isArray(issues)) {
-          pendingCount = issues.filter((i) => i.status !== 'Completed' && i.status !== 'Resolved').length;
-          completedCount = issues.filter((i) => i.status === 'Completed' || i.status === 'Resolved').length;
+          if (issues.some((i) => i.id === 'ISS-100')) {
+            localStorage.removeItem('vlms_issues');
+          } else {
+            pendingCount = issues.filter((i) => i.status !== 'Completed' && i.status !== 'Resolved').length;
+            completedCount = issues.filter((i) => i.status === 'Completed' || i.status === 'Resolved').length;
+          }
         }
       }
     } catch (e) {}

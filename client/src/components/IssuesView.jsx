@@ -68,22 +68,18 @@ export const IssuesView = ({ selectedLab: globalSelectedLab, items = [], onReloa
   const [editingIssue, setEditingIssue] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const defaultIssues = [
-    { id: 'ISS-100', deviceId: 'MON-01', equipmentName: 'Dell UltraSharp 24" Monitor', quantity: 1, title: 'Display backlight flickering fixed', category: 'Hardware', subCategory: 'monitor', severity: 'Medium', status: 'Completed', labLocation: 'Lab 12', reportedBy: 'Admin Manager', postedDate: '2026-08-01', resolvedDate: '2026-08-03', daysTaken: '2 Days', assignedTech: { name: 'Ramesh Tech', phone: '9876543210' }, assignedStaff: 'Ramesh Tech' },
-    { id: 'ISS-101', deviceId: 'PC-01', equipmentName: 'Workstation CPU Tower i7', quantity: 1, title: 'Workstation boot failure & RAM error', category: 'Hardware', subCategory: 'cpu', severity: 'Critical', status: 'Pending Repair', labLocation: 'Lab 12', reportedBy: 'Admin Manager', postedDate: '2026-08-08', assignedTech: { name: 'Suresh Kumar', phone: '9848012345' }, assignedStaff: 'Suresh Kumar' },
-    { id: 'ISS-102', deviceId: 'MON-02', equipmentName: 'UltraSharp 27" Monitor', quantity: 1, title: 'Display flickering on HDMI port', category: 'Hardware', subCategory: 'monitor', severity: 'High', status: 'Pending Repair', labLocation: 'Lab 12', reportedBy: 'Programmer Staff A', postedDate: '2026-08-09', assignedTech: { name: 'Ramesh Tech', phone: '9876543210' }, assignedStaff: 'Ramesh Tech' },
-    { id: 'ISS-103', deviceId: 'FAN-03', equipmentName: 'High Efficiency Ceiling Fan', quantity: 1, title: 'Ceiling fan bearing noise & slow rotation', category: 'Electrical', subCategory: 'fans', severity: 'Medium', status: 'Pending Repair', labLocation: 'Lab 25', reportedBy: 'Jamer Smrey', postedDate: '2026-08-10' }
-  ];
+  const defaultIssues = [];
 
   const [issuesList, setIssuesList] = useState(() => {
     try {
       const saved = localStorage.getItem('vlms_issues');
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed)) return parsed;
+        if (Array.isArray(parsed) && !parsed.some(i => i.id === 'ISS-100')) return parsed;
       }
     } catch (e) {}
-    return defaultIssues;
+    localStorage.removeItem('vlms_issues');
+    return [];
   });
 
   const [stockItems, setStockItems] = useState([]);

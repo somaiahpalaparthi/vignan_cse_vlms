@@ -75,12 +75,7 @@ export const Dashboard = ({ activeTab = 'dashboard', setActiveTab }) => {
     return defaultHardwareItems;
   });
 
-  const defaultIssuesSeed = [
-    { id: 'ISS-100', deviceId: 'MON-01', equipmentName: 'Dell UltraSharp 24" Monitor', quantity: 1, title: 'Display backlight flickering fixed', category: 'Hardware', subCategory: 'monitor', severity: 'Medium', status: 'Completed', labLocation: 'Lab 12', reportedBy: 'Admin Manager', postedDate: '2026-08-01', resolvedDate: '2026-08-03', daysTaken: '2 Days', assignedTech: { name: 'Ramesh Tech', phone: '9876543210' }, assignedStaff: 'Ramesh Tech' },
-    { id: 'ISS-101', deviceId: 'PC-01', equipmentName: 'Workstation CPU Tower i7', quantity: 1, title: 'Workstation boot failure & RAM error', category: 'Hardware', subCategory: 'cpu', severity: 'Critical', status: 'Pending Repair', labLocation: 'Lab 12', reportedBy: 'Admin Manager', postedDate: '2026-08-08', assignedTech: { name: 'Suresh Kumar', phone: '9848012345' }, assignedStaff: 'Suresh Kumar' },
-    { id: 'ISS-102', deviceId: 'MON-02', equipmentName: 'UltraSharp 27" Monitor', quantity: 1, title: 'Display flickering on HDMI port', category: 'Hardware', subCategory: 'monitor', severity: 'High', status: 'Pending Repair', labLocation: 'Lab 12', reportedBy: 'Programmer Staff A', postedDate: '2026-08-09', assignedTech: { name: 'Ramesh Tech', phone: '9876543210' }, assignedStaff: 'Ramesh Tech' },
-    { id: 'ISS-103', deviceId: 'FAN-03', equipmentName: 'High Efficiency Ceiling Fan', quantity: 1, title: 'Ceiling fan bearing noise & slow rotation', category: 'Electrical', subCategory: 'fans', severity: 'Medium', status: 'Pending Repair', labLocation: 'Lab 25', reportedBy: 'Jamer Smrey', postedDate: '2026-08-10' }
-  ];
+  const defaultIssuesSeed = [];
 
   const [stockList, setStockList] = useState([]);
   const [issuesList, setIssuesList] = useState(() => {
@@ -88,18 +83,15 @@ export const Dashboard = ({ activeTab = 'dashboard', setActiveTab }) => {
       const saved = localStorage.getItem('vlms_issues');
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        if (Array.isArray(parsed) && parsed.length > 0 && !parsed.some(i => i.id === 'ISS-100')) {
+          return parsed;
+        }
       }
     } catch (e) {}
-    return defaultIssuesSeed;
+    localStorage.removeItem('vlms_issues');
+    return [];
   });
-  const defaultStaffListSeed = [
-    { id: 'usr-1', name: 'Mr.B.SeshuBabu', mobileNumber: '9491186974', department: 'NB-301', status: 'On Leave' },
-    { id: 'usr-2', name: 'kattakalyani', mobileNumber: '7981669620', department: 'NB-511', status: 'Active' },
-    { id: 'usr-3', name: 'ch sirisha', mobileNumber: '837428829', department: 'NB-304', status: 'Active' },
-    { id: 'usr-4', name: 'Programmer Staff A', mobileNumber: '+1 555-0184', department: 'Lab 12', status: 'Active' },
-    { id: 'usr-5', name: 'Jamer Smrey', mobileNumber: '+1 555-0177', department: 'Lab 25', status: 'Active' }
-  ];
+  const defaultStaffListSeed = [];
 
   const [liveStaffList, setLiveStaffList] = useState(() => {
     try {
@@ -262,27 +254,11 @@ export const Dashboard = ({ activeTab = 'dashboard', setActiveTab }) => {
         } catch (e) {}
       }
 
-      if (Array.isArray(issueData) && issueData.length > 0) {
+      if (Array.isArray(issueData)) {
         setIssuesList(issueData);
         localStorage.setItem('vlms_issues', JSON.stringify(issueData));
       } else {
-        try {
-          const savedIssues = localStorage.getItem('vlms_issues');
-          if (savedIssues) {
-            const parsed = JSON.parse(savedIssues);
-            if (Array.isArray(parsed) && parsed.length > 0) {
-              setIssuesList(parsed);
-            } else {
-              setIssuesList(defaultIssuesSeed);
-              localStorage.setItem('vlms_issues', JSON.stringify(defaultIssuesSeed));
-            }
-          } else {
-            setIssuesList(defaultIssuesSeed);
-            localStorage.setItem('vlms_issues', JSON.stringify(defaultIssuesSeed));
-          }
-        } catch (e) {
-          setIssuesList(defaultIssuesSeed);
-        }
+        setIssuesList([]);
       }
     } catch (err) {
       console.error('Error loading inventory from MongoDB Atlas:', err);
