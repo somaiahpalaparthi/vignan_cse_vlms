@@ -904,7 +904,7 @@ export const ReportsView = ({ items = [] }) => {
                       <td style={{ padding: '14px 10px', color: '#fff', fontWeight: 600 }}>{row.lab}</td>
                       <td style={{ padding: '14px 10px', fontWeight: 700, color: 'var(--cyan-bright)' }}>{row.itemsInStock} Units</td>
                       <td style={{ padding: '14px 10px', fontWeight: 700, color: row.noOfIssues > 0 ? '#ef4444' : 'var(--text-muted)' }}>{row.noOfIssues} Issues</td>
-                      <td style={{ padding: '14px 10px', fontWeight 800, color: 'var(--green-online)' }}>{row.totalWorking} Units</td>
+                      <td style={{ padding: '14px 10px', fontWeight: 800, color: 'var(--green-online)' }}>{row.totalWorking} Units</td>
                       <td style={{ padding: '14px 10px' }}>
                         <span className={`status-pill ${isWorking ? 'status-completed' : 'status-pending'}`}>
                           {row.workingStatus}
