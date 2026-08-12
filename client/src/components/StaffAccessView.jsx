@@ -29,7 +29,11 @@ export const StaffAccessView = () => {
       const saved = localStorage.getItem('vlms_staff_list');
       if (saved) {
         const parsedSaved = JSON.parse(saved);
-        if (Array.isArray(parsedSaved) && parsedSaved.length > 0) initial = parsedSaved;
+        if (Array.isArray(parsedSaved) && parsedSaved.length > 0 && !parsedSaved.some(s => s.name === 'Mr.B.SeshuBabu')) {
+          initial = parsedSaved;
+        } else {
+          localStorage.removeItem('vlms_staff_list');
+        }
       }
     } catch (e) {}
     return initial.filter((s) => s && !deleted.includes(s.id) && !deleted.includes(s.userId) && !deleted.includes(s.email) && !deleted.includes(s._id));

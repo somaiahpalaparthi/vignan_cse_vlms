@@ -61,16 +61,11 @@ export const Home = () => {
       const saved = localStorage.getItem('vlms_staff_list');
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        if (Array.isArray(parsed) && parsed.length > 0 && !parsed.some(s => s.name === 'Mr.B.SeshuBabu')) return parsed;
       }
     } catch (e) {}
-    return [
-      { id: 'usr-1', name: 'Mr.B.SeshuBabu', mobileNumber: '9491186974', department: 'NB-301', status: 'On Leave' },
-      { id: 'usr-2', name: 'kattakalyani', mobileNumber: '7981669620', department: 'NB-511', status: 'Active' },
-      { id: 'usr-3', name: 'ch sirisha', mobileNumber: '837428829', department: 'NB-304', status: 'Active' },
-      { id: 'usr-4', name: 'Programmer Staff A', mobileNumber: '+1 555-0184', department: 'Lab 12', status: 'Active' },
-      { id: 'usr-5', name: 'Jamer Smrey', mobileNumber: '+1 555-0177', department: 'Lab 25', status: 'Active' }
-    ];
+    localStorage.removeItem('vlms_staff_list');
+    return [];
   });
 
   useEffect(() => {
