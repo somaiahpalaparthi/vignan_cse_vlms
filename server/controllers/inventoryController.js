@@ -20,18 +20,7 @@ const isInactiveLab = (labStr) => {
   return false;
 };
 
-const initialInventorySeed = [
-  { itemId: 'HW-001', code: 'VUG-CSE-PC-101', deviceName: 'Dell OptiPlex 7090 Tower Workstation', category: 'Hardware', subCategory: 'cpu', specs: 'Intel Core i7 11th Gen, 32GB DDR4, 1TB NVMe SSD, Nvidia GTX 1650 4GB', labLocation: 'Lab 12', assignedStaff: 'Mr. K. Ramesh', status: 'Online', qty: 45, condition: 'Excellent Condition' },
-  { itemId: 'HW-002', code: 'VUG-CSE-GPU-204', deviceName: 'HP Z2 Tower AI / ML Workstation', category: 'Hardware', subCategory: 'gpu', specs: 'Intel Core i9 13th Gen, 64GB DDR5, 2TB SSD, Nvidia RTX 4080 16GB', labLocation: 'Lab 15', assignedStaff: 'Dr. P. Suresh', status: 'Online', qty: 30, condition: 'Excellent Condition' },
-  { itemId: 'HW-003', code: 'VUG-CSE-SW-012', deviceName: 'Cisco Catalyst 9300 48-Port Gigabit Switch', category: 'Hardware', subCategory: 'switch', specs: 'Managed Layer 3 Switch, 48x 1GbE PoE+ Ports, 4x 10G Uplink', labLocation: 'Lab 33', assignedStaff: 'Mr. V. Anjaneyulu', status: 'Maintenance', qty: 6, condition: 'Port 12 Faulty - Inspection' },
-  { itemId: 'HW-004', code: 'VUG-CSE-IOT-305', deviceName: 'Raspberry Pi 4 Model B (8GB) Lab Packs', category: 'Hardware', subCategory: 'iot', specs: 'ARM Cortex-A72, 8GB LPDDR4, 64GB MicroSD, GPIO Expansion Kit', labLocation: 'Lab 25', assignedStaff: 'Mrs. T. Lakshmi', status: 'Online', qty: 25, condition: 'Good Condition' },
-  { itemId: 'HW-005', code: 'VUG-CSE-MON-114', deviceName: 'Dell 27" UltraSharp 4K IPS Monitor', category: 'Hardware', subCategory: 'monitor', specs: '3840x2160 UHD, 99% sRGB, USB-C Hub, Height Adjustable Stand', labLocation: 'Lab 12', assignedStaff: 'Mr. K. Ramesh', status: 'Online', qty: 45, condition: 'Good Condition' },
-  { itemId: 'EL-001', code: 'VUG-CSE-UPS-001', deviceName: 'APC Smart-UPS VT 20 KVA 3-Phase Online UPS', category: 'Electrical', subCategory: 'ups', specs: '20 KVA / 16 kW, 400V 3-Phase, External 32-Battery Bank Tray', labLocation: 'Lab 12', assignedStaff: 'Electrical Maintenance', status: 'Online', qty: 2, condition: 'Backup Runtime: 45 Mins (94% Health)' },
-  { itemId: 'EL-002', code: 'VUG-CSE-AC-101', deviceName: 'Daikin 3.0 Ton Inverter Cassette AC Unit 1', category: 'Electrical', subCategory: 'ac', specs: 'R-32 Refrigerant, 4-Way Airflow Ceiling Cassette, 5-Star Rating', labLocation: 'Lab 12', assignedStaff: 'HVAC Team', status: 'Online', qty: 4, condition: 'Cooling Target: 21°C' },
-  { itemId: 'EL-003', code: 'VUG-CSE-AC-202', deviceName: 'Voltas 2.0 Ton Heavy Duty Split AC Unit 3', category: 'Electrical', subCategory: 'ac', specs: 'Copper Condenser, Anti-Dust Filter, Turbo Cool Mode', labLocation: 'Lab 15', assignedStaff: 'HVAC Team', status: 'Maintenance', qty: 4, condition: 'Filter Cleaning & Gas Top-up' },
-  { itemId: 'FN-001', code: 'VUG-CSE-DSK-101', deviceName: 'Modular 4-Seater Dual Computer Workstation Desk', category: 'Furniture', subCategory: 'desk', specs: 'CRCA Steel Frame, Pre-laminated Top, Cable Tray & CPU Cage', labLocation: 'Lab 12', assignedStaff: 'Estate Manager', status: 'Online', qty: 12, condition: 'Seats 48 Students' },
-  { itemId: 'FN-002', code: 'VUG-CSE-CHR-105', deviceName: 'Featherlite Ergonomic Revolving Mesh Chairs', category: 'Furniture', subCategory: 'chair', specs: 'Pneumatic Height Adjustment, Lumbar Support, Twin Wheel Castors', labLocation: 'Lab 12', assignedStaff: 'Estate Manager', status: 'Online', qty: 50, condition: '48 Good, 2 Cylinders Serviced' }
-];
+const initialInventorySeed = [];
 
 let isInventorySeeded = false;
 
