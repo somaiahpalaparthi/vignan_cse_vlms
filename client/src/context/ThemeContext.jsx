@@ -4,17 +4,21 @@ const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
   const [theme, setThemeState] = useState(() => {
-    const savedTheme = localStorage.getItem('vlms_theme');
-    if (savedTheme === 'light' || savedTheme === 'dark') {
-      return savedTheme;
-    }
+    try {
+      const savedTheme = localStorage.getItem('vlms_theme');
+      if (savedTheme === 'light' || savedTheme === 'dark') {
+        return savedTheme;
+      }
+    } catch (e) {}
     // Default to dark mode for VLMS modern glass aesthetic
     return 'dark';
   });
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('vlms_theme', theme);
+    try {
+      localStorage.setItem('vlms_theme', theme);
+    } catch (e) {}
   }, [theme]);
 
   const toggleTheme = () => {
