@@ -335,7 +335,7 @@ export const StaffAccessView = () => {
           </p>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
           <button 
             onClick={loadStaffUsers} 
             className="pill-filter" 
@@ -350,6 +350,46 @@ export const StaffAccessView = () => {
             style={{ height: '40px', padding: '0 18px', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer' }}
           >
             <Plus size={16} /> Register Staff Account
+          </button>
+
+          <button
+            onClick={async () => {
+              if (!window.confirm('⚠️ ADMIN CONFIRMATION: Are you sure you want to CLEAR ALL Reports & Analytics data?')) return;
+              try {
+                await fetchAPI('/issues/clear/all', { method: 'DELETE' }).catch(() => {});
+                await fetchAPI('/stock/clear/all', { method: 'DELETE' }).catch(() => {});
+                await fetchAPI('/inventory/clear/all', { method: 'DELETE' }).catch(() => {});
+
+                localStorage.removeItem('vlms_issues');
+                localStorage.removeItem('vlms_stock_list');
+                localStorage.removeItem('vlms_stock_entries');
+                localStorage.removeItem('vlms_inventory');
+
+                alert('✅ All Reports & Analytics data cleared successfully!');
+                window.location.reload();
+              } catch (err) {
+                console.error(err);
+                alert('Notice: Local storage cleared.');
+                window.location.reload();
+              }
+            }}
+            style={{
+              height: '40px',
+              padding: '0 16px',
+              fontSize: '0.85rem',
+              background: 'rgba(239, 68, 68, 0.2)',
+              border: '1px solid rgba(239, 68, 68, 0.45)',
+              color: '#ef4444',
+              borderRadius: '8px',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              fontWeight: 700
+            }}
+            title="Clear All Reports & Analytics Data"
+          >
+            <Trash2 size={16} /> Clear All Reports & Analytics
           </button>
         </div>
       </div>

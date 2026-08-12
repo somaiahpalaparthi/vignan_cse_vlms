@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Settings, Shield, Server, Database, Key, Bell, Save, CheckCircle, Sun, Moon, Palette } from 'lucide-react';
+import { Settings, Shield, Server, Database, Key, Bell, Save, CheckCircle, Sun, Moon, Palette, Trash2 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
+import { fetchAPI } from '../services/api';
 
 export const SettingsView = () => {
   const { theme, setTheme, isDark } = useTheme();
@@ -16,6 +17,28 @@ export const SettingsView = () => {
     e.preventDefault();
     setSaved(true);
     setTimeout(() => setSaved(false), 3000);
+  };
+
+  const handleClearAllReportsAdmin = async () => {
+    if (!window.confirm('⚠️ ADMIN CONFIRMATION: Are you sure you want to CLEAR ALL Reports & Analytics data? This will reset all report summary entries across the system to 0!')) return;
+
+    try {
+      await fetchAPI('/issues/clear/all', { method: 'DELETE' }).catch(() => {});
+      await fetchAPI('/stock/clear/all', { method: 'DELETE' }).catch(() => {});
+      await fetchAPI('/inventory/clear/all', { method: 'DELETE' }).catch(() => {});
+
+      localStorage.removeItem('vlms_issues');
+      localStorage.removeItem('vlms_stock_list');
+      localStorage.removeItem('vlms_stock_entries');
+      localStorage.removeItem('vlms_inventory');
+
+      alert('✅ All Reports & Analytics data cleared successfully by Admin!');
+      window.location.reload();
+    } catch (err) {
+      console.error('Error clearing reports:', err);
+      alert('Notice: Local storage cleared. ' + (err.message || ''));
+      window.location.reload();
+    }
   };
 
   return (
@@ -169,6 +192,46 @@ export const SettingsView = () => {
               </div>
               <input type="checkbox" checked={maintenanceMode} onChange={(e) => setMaintenanceMode(e.target.checked)} style={{ width: 18, height: 18, accentColor: 'var(--cyan-bright)' }} />
             </label>
+          </div>
+        </div>
+
+        {/* Panel 4: Report & Analytics Reset (Admin Maintenance) */}
+        <div className="lab-card" style={{ padding: '24px', border: '1px solid rgba(239, 68, 68, 0.4)', background: 'rgba(239, 68, 68, 0.05)' }}>
+          <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#ef4444', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <Trash2 size={18} color="#ef4444" /> Admin Reset: Clear All Reports & Analytics
+          </h3>
+
+          <p style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', marginBottom: '16px' }}>
+            Permanently reset and delete all reports summary records, issue logs, stock entries, and analytics history.
+          </p>
+
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
+            <div>
+              <span style={{ fontSize: '0.9rem', fontWeight: 700, color: '#fff' }}>Clear All Reports & Analytics Data</span>
+              <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Purges all summary entries across MongoDB Atlas and resets local storage</p>
+            </div>
+
+            <button
+              type="button"
+              onClick={handleClearAllReportsAdmin}
+              style={{
+                height: '42px',
+                padding: '0 20px',
+                fontSize: '0.88rem',
+                background: '#ef4444',
+                color: '#ffffff',
+                border: 'none',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                fontWeight: 700,
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                boxShadow: '0 4px 12px rgba(239, 68, 68, 0.3)'
+              }}
+            >
+              <Trash2 size={16} /> Clear All Reports & Analytics
+            </button>
           </div>
         </div>
 
